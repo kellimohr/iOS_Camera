@@ -22,7 +22,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(20.0f, 186.0f, 280.0f, 88.0f);
+    button.frame = CGRectMake(20.0f, 186.0f, 280.0f, 400.0f);
     [button setTitle:@"Get Image" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button.tintColor = [UIColor darkGrayColor];
@@ -44,23 +44,29 @@
     if ([buttonTitle isEqualToString:@"Album"]) {
         NSLog(@"Album pressed");
         
-        [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+            
+            [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+        }
+        else{
+            NSLog(@"Photo Album not available");
+        };
     }
     if ([buttonTitle isEqualToString:@"Camera"]) {
         NSLog(@"Camera pressed");
         
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
             [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-        } else {
-            [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
         }
-        
-        [picker setAllowsEditing:YES];
-        [self presentViewController:picker animated:YES completion:^{
-            NSLog(@"Showing Camera");
-        }];
+        else {
+            [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+        };
     }
-
+    [picker setAllowsEditing:YES];
+    
+    [self presentViewController:picker animated:YES completion:^{
+        NSLog(@"Showing Camera");
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
