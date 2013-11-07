@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KMViewController : UIViewController
+@interface KMViewController : UIViewController  <UIActionSheetDelegate>
 
 @end
